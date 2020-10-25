@@ -6,7 +6,7 @@ const buildRouter = () => {
     var router = express.Router()
 
     //GET ALL
-    router.get('/', (req, res) => {
+    router.get('/:entity', (req, res) => {
         const Entity = models[req.params.entity];
         return Entity.find(req.query)
           .then((results) => {
