@@ -1,11 +1,14 @@
 const express = require('express');
 const models = require('../../mongo');
+const {validationEntityMiddleware, validationEntityIdMiddleware} = require("./validation");
 
 const buildRouter = () => {
     
     var router = express.Router()
+    router.use('/:entity', validationEntityMiddleware, );
+    router.use('/:entity/:id', validationEntityIdMiddleware);
 
-    //GET ALL
+    // GET ALL
     router.get('/:entity', (req, res) => {
         const Entity = models[req.params.entity];
         return Entity.find(req.query)
@@ -16,23 +19,22 @@ const buildRouter = () => {
           });
       });
 
-    //GET ONE BY ID 
+    // GET ONE BY ID 
     router.get('/:entity/:id', (req, res) => {
         const Entity = models[req.params.entity];
         return Entity.findById(req.params.id).then((result) => {
             if (result){
-                res.status(200).send(result);
+              res.status(200).send(result);
             } else {
-                res.status(404).send();
+              res.status(404).send();
             }
         }).catch((err) => {
             res.status(500).send({error: err})
         });
     });
 
-    //CREATE
+    // CREATE
     router.post('/:entity', (req, res) => {
-      console.log("hola");
         const Entity = models[req.params.entity];
         console.log(Entity);
         const newEntity = new Entity(req.body);
@@ -43,7 +45,7 @@ const buildRouter = () => {
         });
       });
 
-    //DELETE
+    // DELETE
     router.delete('/:entity/:id', (req, res) => {
         const Entity = models[req.params.entity];
         return Entity.findByIdAndDelete(req.params.id).then(() => {
@@ -53,7 +55,7 @@ const buildRouter = () => {
         });
       });
 
-    //UPDATE BY ID
+    // UPDATE BY ID
     router.put('/:entity/:id', (req, res) => {
         const Entity = models[req.params.entity];
         return Entity.findByIdAndUpdate(req.params.id, req.body, {'new': true})
