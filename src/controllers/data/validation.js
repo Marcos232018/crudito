@@ -4,7 +4,7 @@ const User = require('../../mongo/schemas/User')
 //HERE WE CREATE OUR VALIDATION MIDDLEWARES
 
 //UNKNOWN ENTITY
-const validationEntityMiddleware = (req, res, next) => {
+const entity = (req, res, next) => {
   if (models[req.params.entity] !== undefined) 
     return next();
 
@@ -12,7 +12,7 @@ const validationEntityMiddleware = (req, res, next) => {
 }
 
 //WRONG ID
-const validationEntityIdMiddleware = (req, res, next) => {
+const entity_id = (req, res, next) => {
   if (req.params.id !== undefined && req.params.id.length === 24) 
     return next();
   
@@ -20,6 +20,6 @@ const validationEntityIdMiddleware = (req, res, next) => {
 }
 
 module.exports = {
-  validationEntityMiddleware,
-  validationEntityIdMiddleware,
+  entity,
+  entity_id,
 }

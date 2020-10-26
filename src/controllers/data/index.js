@@ -1,14 +1,14 @@
 const express = require('express');
 const models = require('../../mongo');
-const { validationEntityMiddleware, validationEntityIdMiddleware } = require("./validation");
+const validation = require("./validation");
 
 
 //THE MASTER OF CRUDS
 const buildRouter = () => {
 
   var router = express.Router()
-  router.use('/:entity', validationEntityMiddleware);
-  router.use('/:entity/:id', validationEntityIdMiddleware);
+  router.use('/:entity', validation.entity);
+  router.use('/:entity/:id', validation.entity_id);
 
   // GET ALL
   router.get('/:entity', (req, res) => {
